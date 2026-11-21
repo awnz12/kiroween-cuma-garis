@@ -1,0 +1,7 @@
+node_modules/
+dist/
+*.log
+.DS_Store
+
+# NOTE: .kiro/ is intentionally NOT ignored — Kiroween requires the
+# /.kiro folder committed at the repo root.
