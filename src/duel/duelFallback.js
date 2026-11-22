@@ -51,6 +51,7 @@ let _elTelegraph = null;
 let _elBtnAyun  = null;
 let _elBtnPerisai = null;
 let _elBtnKait  = null;
+let _elBtnSkip  = null;
 
 // ============================================================
 // API Publik
@@ -267,6 +268,20 @@ function _buildUI() {
       ">JEDA</div>
     </div>
 
+    <!-- Tombol lewati duel (Fase 6-prep, sesuai naskah) -->
+    <div id="fb-skipbar" style="
+      display:flex; justify-content:center;
+      padding:0.5rem 0.75rem 0;
+      background:rgba(10,10,15,0.95);
+    ">
+      <button id="fb-btn-skip" class="ctrl-btn" type="button" style="
+        min-height:48px; min-width:60%;
+        font-size:clamp(0.7rem,3.5cqw,0.85rem); font-weight:700;
+        background:rgba(255,255,255,0.06); border:1px solid rgba(255,255,255,.25);
+        color:#f0f0f5; border-radius:8px; cursor:pointer;
+      ">⏭ Lewati Duel</button>
+    </div>
+
     <!-- Tombol aksi -->
     <div id="fb-actions" style="
       display:grid; grid-template-columns:1fr 1fr 1fr;
@@ -322,6 +337,7 @@ function _buildUI() {
   _elBtnAyun   = el.querySelector('#fb-btn-0');
   _elBtnPerisai = el.querySelector('#fb-btn-1');
   _elBtnKait   = el.querySelector('#fb-btn-2');
+  _elBtnSkip   = el.querySelector('#fb-btn-skip');
 
   // Label tombol dari episode.json (index 0=Ayun, 1=Perisai, 2=Kait)
   [_elBtnAyun, _elBtnPerisai, _elBtnKait].forEach((btn, i) => {
@@ -332,6 +348,7 @@ function _buildUI() {
   _elBtnAyun  ?.addEventListener('click', () => _doAksi('ayun'));
   _elBtnPerisai?.addEventListener('click', () => _doAksi('perisai'));
   _elBtnKait  ?.addEventListener('click', () => _doAksi('kait'));
+  _elBtnSkip  ?.addEventListener('click', () => _skipDuel());
 }
 
 // ============================================================
@@ -477,15 +494,30 @@ function _detachKeyboard() {
 // Akhir duel
 // ============================================================
 
-function _endDuel(timerHabis) {
+/**
+ * Lewati duel (Fase 6-prep, sesuai naskah): pemain menyerahkan duel —
+ * hasil dipaksa `bertahan` lewat kontrak _endDuel yang sama, dengan
+ * statistik apa adanya saat tombol ditekan.
+ */
+function _skipDuel() {
+  if (_ended || _paused) return;
+  console.debug('[duelFallback] Duel dilewati pemain — hasil dipaksa: bertahan.');
+  _endDuel(false, 'bertahan');
+}
+
+function _endDuel(timerHabis, forcedOutcome = null) {
   if (_ended) return;
   _ended = true;
 
   _clearTimers();
   _detachKeyboard();
 
-  const result = computeOutcome({ hpRaka: _hpRaka, hpMusuh: _hpMusuh, timerHabis });
-  console.debug(`[duelFallback] Duel selesai — outcome: ${result.outcome} | HP Raka: ${_hpRaka} | HP Musuh: ${_hpMusuh} | timer habis: ${timerHabis}`);
+  // forcedOutcome hanya dipakai jalur lewati duel (naskah: lewati = bertahan);
+  // jalur normal tetap dihitung computeOutcome persis seperti sebelumnya.
+  const result = forcedOutcome
+    ? { outcome: forcedOutcome }
+    : computeOutcome({ hpRaka: _hpRaka, hpMusuh: _hpMusuh, timerHabis });
+  console.debug(`[duelFallback] Duel selesai — outcome: ${result.outcome} | HP Raka: ${_hpRaka} | HP Musuh: ${_hpMusuh} | timer habis: ${timerHabis}${forcedOutcome ? ' | dilewati pemain' : ''}`);
 
   // Statistik duel untuk ringkasan di end card (Fase 4, design §5).
   // Argumen pertama onDone tetap string outcome (kontrak lama tidak berubah).

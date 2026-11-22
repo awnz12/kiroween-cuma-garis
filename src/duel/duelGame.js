@@ -79,6 +79,7 @@ let _elTimer      = null;
 let _elBtnAyun    = null;
 let _elBtnPerisai = null;
 let _elBtnKait    = null;
+let _elBtnSkip    = null;
 
 // ============================================================
 // API Publik
@@ -545,7 +546,7 @@ function _buildUI() {
 
     <!-- Overlay telegraph DOM (muncul saat musuh akan menyerang) -->
     <div id="dg-telegraph" style="
-      position:absolute; bottom:88px; left:0; right:0;
+      position:absolute; bottom:148px; left:0; right:0;
       pointer-events:none;
       display:none; flex-direction:column; align-items:center;
       gap:4px; padding:0.4rem;
@@ -580,6 +581,20 @@ function _buildUI() {
       font-size:1.5rem; font-weight:900; letter-spacing:.12em; color:#f0f0f5;
       pointer-events:none;
     ">JEDA</div>
+
+    <!-- Tombol lewati duel (Fase 6-prep, sesuai naskah) — pointer-events on -->
+    <div id="dg-skipbar" style="
+      pointer-events:all;
+      display:flex; justify-content:center;
+      padding:0.45rem 0.65rem 0;
+    ">
+      <button id="dg-btn-skip" type="button" class="ctrl-btn" style="
+        min-height:48px; min-width:60%;
+        font-size:clamp(0.7rem,3.5cqw,0.85rem); font-weight:700;
+        background:rgba(0,0,0,0.55); border:1px solid rgba(255,255,255,.25);
+        color:#f0f0f5; border-radius:8px; cursor:pointer;
+      ">⏭ Lewati Duel</button>
+    </div>
 
     <!-- Tombol aksi (sentuh + keyboard) — pointer-events on -->
     <div id="dg-actions" style="
@@ -622,6 +637,7 @@ function _buildUI() {
   _elBtnAyun   = _uiEl.querySelector('#dg-btn-0');
   _elBtnPerisai = _uiEl.querySelector('#dg-btn-1');
   _elBtnKait   = _uiEl.querySelector('#dg-btn-2');
+  _elBtnSkip   = _uiEl.querySelector('#dg-btn-skip');
 
   // Label tombol dari episode.json
   ['#dg-lbl-0', '#dg-lbl-1', '#dg-lbl-2'].forEach((sel, i) => {
@@ -633,6 +649,7 @@ function _buildUI() {
   _elBtnAyun  ?.addEventListener('click', () => _doAksi('ayun'));
   _elBtnPerisai?.addEventListener('click', () => _doAksi('perisai'));
   _elBtnKait  ?.addEventListener('click', () => _doAksi('kait'));
+  _elBtnSkip  ?.addEventListener('click', () => _skipDuel());
 }
 
 // ============================================================
@@ -838,7 +855,18 @@ function _showPauseOverlay(show) {
 // Akhir duel (Tugas 3.4)
 // ============================================================
 
-function _endDuel(timerHabis) {
+/**
+ * Lewati duel (Fase 6-prep, sesuai naskah): pemain menyerahkan duel —
+ * hasil dipaksa `bertahan` lewat kontrak _endDuel yang sama, dengan
+ * statistik apa adanya saat tombol ditekan.
+ */
+function _skipDuel() {
+  if (_ended || _paused) return;
+  console.debug('[duelGame] Duel dilewati pemain — hasil dipaksa: bertahan.');
+  _endDuel(false, 'bertahan');
+}
+
+function _endDuel(timerHabis, forcedOutcome = null) {
   if (_ended) return;
   _ended = true;
 
@@ -846,10 +874,15 @@ function _endDuel(timerHabis) {
   _clearTimers();
   _detachKeyboard();
 
-  const result = computeOutcome({ hpRaka: _hpRaka, hpMusuh: _hpMusuh, timerHabis });
+  // forcedOutcome hanya dipakai jalur lewati duel (naskah: lewati = bertahan);
+  // jalur normal tetap dihitung computeOutcome persis seperti sebelumnya.
+  const result = forcedOutcome
+    ? { outcome: forcedOutcome }
+    : computeOutcome({ hpRaka: _hpRaka, hpMusuh: _hpMusuh, timerHabis });
   console.debug(
     `[duelGame] Duel selesai — outcome: ${result.outcome}` +
-    ` | HP Raka: ${_hpRaka} | HP Musuh: ${_hpMusuh} | timer habis: ${timerHabis}`
+    ` | HP Raka: ${_hpRaka} | HP Musuh: ${_hpMusuh} | timer habis: ${timerHabis}` +
+    (forcedOutcome ? ' | dilewati pemain' : '')
   );
 
   // Statistik duel untuk ringkasan di end card (Fase 4, design §5).
