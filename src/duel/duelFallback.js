@@ -7,7 +7,8 @@
  * parameter), tidak ada string narasi/game di-hardcode.
  *
  * Aturan hasil: IDENTIK dengan duelResult.js (Req 3.5).
- * Kontrak keluar: panggil sm.finishDuel(outcome) lalu onDone(outcome).
+ * Kontrak keluar: panggil sm.finishDuel(outcome) lalu onDone(outcome, stats)
+ * dengan stats = { hpRaka, hpMusuh, durationSec } (Fase 4).
  */
 
 import { computeOutcome } from './duelResult.js';
@@ -486,11 +487,19 @@ function _endDuel(timerHabis) {
   const result = computeOutcome({ hpRaka: _hpRaka, hpMusuh: _hpMusuh, timerHabis });
   console.debug(`[duelFallback] Duel selesai — outcome: ${result.outcome} | HP Raka: ${_hpRaka} | HP Musuh: ${_hpMusuh} | timer habis: ${timerHabis}`);
 
+  // Statistik duel untuk ringkasan di end card (Fase 4, design §5).
+  // Argumen pertama onDone tetap string outcome (kontrak lama tidak berubah).
+  const stats = {
+    hpRaka:      Math.max(0, _hpRaka),
+    hpMusuh:     Math.max(0, _hpMusuh),
+    durationSec: Math.round(DUEL_TIMER_SEC - _timerSec),
+  };
+
   // Tampilkan pesan hasil sesaat lalu bersihkan
   _showResultOverlay(result.outcome, () => {
     _cleanup();
     _sm.finishDuel(result.outcome);
-    if (typeof _onDone === 'function') _onDone(result.outcome);
+    if (typeof _onDone === 'function') _onDone(result.outcome, stats);
   });
 }
 

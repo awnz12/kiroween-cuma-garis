@@ -129,7 +129,9 @@
       "audio": "assets/audio/ending-a.mp3",
       "narration": [
         {
-          "text": "Satu garis… cukup buat melindungi semua orang yang menertawakannya."
+          "text": "Satu garis… cukup buat melindungi semua orang yang menertawakannya.",
+          "startSec": 0.3,
+          "endSec": 4.86
         }
       ],
       "endCard": {
@@ -150,7 +152,9 @@
       "audio": "assets/audio/ending-b.mp3",
       "narration": [
         {
-          "text": "Aku belum menang. Tapi aku masih di sini — dan garis ini… belum terhapus."
+          "text": "Aku belum menang. Tapi aku masih di sini — dan garis ini… belum terhapus.",
+          "startSec": 0.3,
+          "endSec": 5.39
         }
       ],
       "endCard": {

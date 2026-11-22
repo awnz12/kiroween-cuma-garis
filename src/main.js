@@ -1,6 +1,6 @@
 /**
  * CUMA GARIS. — Episode Interaktif
- * main.js — Bootstrap & wiring semua modul (Fase 1 + Fase 3)
+ * main.js — Bootstrap & wiring semua modul (Fase 1 + Fase 3 + Fase 4)
  *
  * Urutan inisialisasi:
  * 1. Muat episode.json (assets.loadEpisodeData)
@@ -8,7 +8,8 @@
  * 3. Buat state machine (stateMachine.createStateMachine)
  * 4. Inisialisasi scenePlayer (scenePlayer.initScenePlayer)
  * 5. Inisialisasi stubs/branch overlay (stubs.initStubs)
- * 6. Pasang handler tombol intro
+ * 6. Inisialisasi endings (endings.initEndings) — Fase 4
+ * 7. Pasang handler tombol intro
  */
 
 import { loadEpisodeData, getEpisodeData }  from './assets.js';
@@ -21,8 +22,8 @@ import {
 import {
   initStubs,
   showBranchOverlay,
-  showEndCardStub,
 }                                           from './stubs.js';
+import { initEndings }                      from './endings.js';
 
 // ---- Bootstrap ---------------------------------------------
 
@@ -71,12 +72,21 @@ async function boot() {
   // 5. Inisialisasi stubs/branch overlay (Fase 3)
   //    Teruskan episodeData agar teks diambil dari JSON, bukan hardcode.
   initStubs(sm, episodeData, () => {
-    // Dipanggil saat "Main Lagi" dari end card → state sudah di BRANCH
+    // Callback masuk BRANCH (sejak Fase 4 jalur "Main Lagi" memanggil
+    // callback yang sama lewat initEndings di bawah)
     _syncUI(sm);
     showBranchOverlay();
   });
 
-  // 6. Pasang handler tombol "Mulai Episode"
+  // 6. Inisialisasi endings (Fase 4) — pemutar Ending A/B + end card nyata.
+  //    Callback replay identik dengan callback branch: setelah "Main Lagi"
+  //    state sudah kembali ke BRANCH, tampilkan overlay branch lagi.
+  initEndings(sm, episodeData, () => {
+    _syncUI(sm);
+    showBranchOverlay();
+  });
+
+  // 7. Pasang handler tombol "Mulai Episode"
   const introScreen = document.getElementById('intro-screen');
   const btnStart    = document.getElementById('btn-start');
 

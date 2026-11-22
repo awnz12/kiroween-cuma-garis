@@ -1,6 +1,6 @@
 /**
  * CUMA GARIS. — Episode Interaktif
- * stubs.js — Overlay BRANCH (nyata, Fase 3) + ENDCARD stub (Fase 4)
+ * stubs.js — Overlay BRANCH (nyata, Fase 3) + jembatan ke ending (Fase 4)
  *
  * Fase 3 mengganti stub BRANCH dengan overlay branch point nyata (Tugas 3.6):
  *   - Freeze frame Scene 5 (klip video tetap tampil di latar)
@@ -8,21 +8,24 @@
  *   - Tombol "Mulai Duel" memulai duelGame (atau duelFallback)
  *   - Keyboard juga terhenti; listener duel aktif di dalam duelGame
  *
- * Stub ENDCARD tetap (Fase 4 akan menggantinya dengan endings.js).
+ * Fase 4: stub ENDCARD sudah diganti pemutaran ending nyata di endings.js.
+ * Modul ini hanya meneruskan hasil duel (outcome + stats) ke playEnding().
  *
  * Kontrak:
  *   initStubs(sm, episodeData, onBranchEntered)
  *   showBranchOverlay()   ← dipanggil oleh main.js saat SM masuk BRANCH
- *   showEndCardStub(outcome)
  */
 
 import { startDuelGame, pauseDuelGame, resumeDuelGame } from './duel/duelGame.js';
+import { playEnding } from './endings.js';
 
 // ---- Referensi modul ----------------------------------------
 
 let _sm           = null;
 let _episodeData  = null;
-let _onBranch     = null;    // callback saat masuk BRANCH (dari SM atau replay)
+let _onBranch     = null;    // callback masuk BRANCH — sejak Fase 4 jalur "Main Lagi"
+                             // ditangani endings.js (initEndings); parameter ini
+                             // dipertahankan agar kontrak initStubs tidak berubah
 
 let _overlayEl    = null;    // overlay utama (branch / endcard)
 let _stageEl      = null;    // .stage — target container Three.js
@@ -124,58 +127,14 @@ function _startDuel() {
     controls,
     stateMachine: _sm,
     container,
-    onDone: (outcome) => {
-      // duelGame sudah memanggil sm.finishDuel(outcome) sebelum memanggil onDone
-      // Pemetaan outcome → ending dari episode.json (Tugas 3.4)
+    onDone: (outcome, stats) => {
+      // duelGame sudah memanggil sm.finishDuel(outcome) sebelum onDone
+      // → state machine ada di ENDING. Pemetaan outcome → ending dibaca
+      // endings.js dari episode.json branch.outcomes (Tugas 4.1).
       const variant = branch.outcomes[outcome]; // e.g. 'ending-a' atau 'ending-b'
-      console.debug(`[stubs] Duel selesai: outcome=${outcome}, variant=${variant}`);
-      // Tampilkan stub end card (Fase 4 akan mengganti ini dengan endings.js)
-      _sm.showEndCard();
-      showEndCardStub(outcome);
+      console.debug(`[stubs] Duel selesai: outcome=${outcome}, variant=${variant} → putar ending`);
+      playEnding(outcome, stats);
     },
-  });
-}
-
-// ---- Stub End Card (Fase 4 mengganti ini) ------------------
-
-/**
- * Tampilkan stub end card.
- * @param {'menang'|'bertahan'} outcome
- */
-export function showEndCardStub(outcome) {
-  const endings   = _episodeData?.endings || [];
-  const endingDef = endings.find(e =>
-    (outcome === 'menang'   && e.id === 'ending-a') ||
-    (outcome === 'bertahan' && e.id === 'ending-b')
-  );
-  const endCard = endingDef?.endCard;
-
-  const mainText   = endCard?.text        ?? 'BERSAMBUNG — Episode 2 besok.';
-  const extraLine  = endCard?.extraLine   ?? null;
-  const replayLbl  = endCard?.replayLabel ?? 'Main Lagi';
-  const darkTheme  = endCard?.darkTheme   ?? (outcome === 'bertahan');
-  const badge      = outcome === 'menang' ? '🏆' : '🌑';
-  const resultLabel = outcome === 'menang' ? 'MENANG' : 'BERTAHAN';
-
-  _show(`
-    <div class="stub-content${darkTheme ? ' stub-dark' : ''}">
-      <div class="stub-badge">${badge}</div>
-      <h2>${_escHtml(mainText)}</h2>
-      <p class="stub-label">Hasil: ${resultLabel}</p>
-      ${extraLine ? `<p class="stub-extra">${_escHtml(extraLine)}</p>` : ''}
-      <p class="stub-soon">[ Pemutaran Ending penuh — Fase 4 ]</p>
-      <div class="stub-actions">
-        <button id="stub-btn-replay" class="ctrl-btn stub-action-btn replay-btn" type="button">
-          🔄 ${_escHtml(replayLbl)}
-        </button>
-      </div>
-    </div>
-  `);
-
-  document.getElementById('stub-btn-replay')?.addEventListener('click', () => {
-    _hideSelf();
-    _sm.replayFromEndCard(); // → BRANCH
-    if (typeof _onBranch === 'function') _onBranch();
   });
 }
 

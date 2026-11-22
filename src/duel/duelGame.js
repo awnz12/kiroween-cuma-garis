@@ -90,7 +90,8 @@ let _elBtnKait    = null;
  * @param {object} opts
  * @param {string[]}    opts.controls     - label 3 aksi dari episode.json
  * @param {object}      opts.stateMachine - instance SM
- * @param {Function}    opts.onDone       - dipanggil dengan outcome setelah selesai
+ * @param {Function}    opts.onDone       - dipanggil dengan (outcome, stats) setelah selesai;
+ *                                          stats = { hpRaka, hpMusuh, durationSec } (Fase 4)
  * @param {HTMLElement} opts.container    - elemen induk (mis. .stage)
  */
 export async function startDuelGame({ controls, stateMachine, onDone, container }) {
@@ -851,10 +852,18 @@ function _endDuel(timerHabis) {
     ` | HP Raka: ${_hpRaka} | HP Musuh: ${_hpMusuh} | timer habis: ${timerHabis}`
   );
 
+  // Statistik duel untuk ringkasan di end card (Fase 4, design §5).
+  // Argumen pertama onDone tetap string outcome (kontrak lama tidak berubah).
+  const stats = {
+    hpRaka:      Math.max(0, _hpRaka),
+    hpMusuh:     Math.max(0, _hpMusuh),
+    durationSec: Math.round(DUEL_TIMER_SEC - _timerSec),
+  };
+
   _showResultOverlay(result.outcome, () => {
     _cleanup();
     _sm.finishDuel(result.outcome);
-    if (typeof _onDone === 'function') _onDone(result.outcome);
+    if (typeof _onDone === 'function') _onDone(result.outcome, stats);
   });
 }
 

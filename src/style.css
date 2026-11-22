@@ -529,8 +529,25 @@ html, body {
 }
 
 /* Dark theme end card (Ending B) */
-.stub-dark {
-  /* teks yang sudah ada tetap; ini placeholder untuk Fase 4 */
+.stub-dark h2 {
+  color: #eec9c4;
+}
+
+/* ============================================================
+   Fase 4 — End card nyata (endings.js)
+   ============================================================ */
+
+/* Baris ringkasan hasil duel di end card (design §5) */
+.ending-summary {
+  font-size: clamp(0.8rem, 3.8cqw, 1rem);
+  color: rgba(240, 240, 245, 0.88);
+  font-weight: 600;
+  line-height: 1.5;
+}
+
+/* Varian gelap Ending B: latar overlay lebih pekat */
+#stub-overlay.ending-dark {
+  background: rgba(6, 4, 10, 0.97);
 }
 
 /* Tombol aksi duel di luar overlay — ctrl-btn sudah ada di style utama */

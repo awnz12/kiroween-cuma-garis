@@ -54,9 +54,9 @@ prosesnya, jangan dihapus/di-gitignore.
 
 ## Fase 4 — Percabangan ending (Req 4)
 
-- [ ] 4.1 `endings.js`: petakan hasil duel → Ending A/B dari
+- [x] 4.1 `endings.js`: petakan hasil duel → Ending A/B dari
       `episode.json`; putar klip + narasi varian yang benar
-- [ ] 4.2 End card per varian: teks "BERSAMBUNG — Episode 2", ringkasan
+- [x] 4.2 End card per varian: teks "BERSAMBUNG — Episode 2", ringkasan
       hasil duel, tombol "Main Lagi" → kembali ke BRANCH (Req 4.4)
 
 ## Fase 5 — Verifikasi & poles
