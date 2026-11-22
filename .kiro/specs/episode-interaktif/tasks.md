@@ -7,9 +7,9 @@ prosesnya, jangan dihapus/di-gitignore.
 
 ## Fase 0 — Fondasi repo
 
-- [ ] 0.1 Inisialisasi struktur folder sesuai design §1 (`src/`, `assets/`,
+- [x] 0.1 Inisialisasi struktur folder sesuai design §1 (`src/`, `assets/`,
       `data/`) + `index.html` kerangka panggung 9:16
-- [ ] 0.2 `data/episode.json` dari `cerita/naskah-episode.md`: 5 scene,
+- [x] 0.2 `data/episode.json` dari `cerita/naskah-episode.md`: 5 scene,
       titik branch, 2 ending, rentang subtitle per kalimat
 - [ ] 0.3 `.gitignore` (node_modules/dist/log) — pastikan `.kiro` TIDAK
       ter-ignore; verifikasi `git status` menampilkan `.kiro/`

@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+  <meta name="description" content="CUMA GARIS. — Episode Interaktif. Tonton episode anime ±1 menit, lalu mainkan duel Raka sebagai penentu endingnya." />
+  <title>CUMA GARIS. — Episode Interaktif</title>
+
+  <!-- Pra-koneksi CDN Three.js (dipakai Fase 3) -->
+  <link rel="preconnect" href="https://unpkg.com" />
+
+  <link rel="stylesheet" href="src/style.css" />
+</head>
+<body>
+
+<div id="app">
+
+  <!-- ======================================================
+       PANGGUNG 9:16 — satu-satunya elemen bermain
+       ====================================================== -->
+  <div class="stage" role="main" aria-label="Panggung episode CUMA GARIS.">
+
+    <!-- ---- Area klip video -------------------------------- -->
+    <div id="clip-area">
+      <!-- Elemen video utama; src diisi scenePlayer di Fase 1 -->
+      <video id="main-video"
+             playsinline
+             muted
+             preload="metadata"
+             aria-label="Klip adegan episode">
+      </video>
+
+      <!-- Fallback: ditampilkan bila klip gagal muat (Req 1.4) -->
+      <div id="clip-fallback" role="img" aria-label="Gambar cadangan adegan">
+        <span>[ Adegan tidak tersedia — narasi tetap berjalan ]</span>
+      </div>
+
+      <!-- ---- Overlay subtitle (Req 2.2) ------------------- -->
+      <div id="subtitle-overlay" aria-live="polite" aria-atomic="true">
+        <span id="subtitle-text"></span>
+      </div>
+
+      <!-- ---- Indikator scene (Req 1.2) -------------------- -->
+      <div id="scene-indicator" role="list" aria-label="Indikator scene saat ini">
+        <!-- Titik-titik diisi dinamis oleh scenePlayer (Fase 1).
+             Placeholder 5 titik scene + 1 branch: -->
+        <div class="scene-dot" role="listitem" aria-label="Scene 1"></div>
+        <div class="scene-dot" role="listitem" aria-label="Scene 2"></div>
+        <div class="scene-dot" role="listitem" aria-label="Scene 3"></div>
+        <div class="scene-dot" role="listitem" aria-label="Scene 4"></div>
+        <div class="scene-dot" role="listitem" aria-label="Scene 5"></div>
+      </div>
+
+      <!-- ---- Layar intro ----------------------------------- -->
+      <div id="intro-screen" role="region" aria-label="Layar pembuka episode">
+        <h1>CUMA <span>GARIS.</span></h1>
+        <p>Ep 1 — "Kebangun Jadi Garis"<br />Episode anime interaktif ±1 menit</p>
+        <button id="btn-start" type="button">▶ Mulai Episode</button>
+      </div>
+    </div><!-- /#clip-area -->
+
+    <!-- ---- Kontrol bawah panggung (Req 1.5, 5.3) ---------- -->
+    <div id="controls" role="toolbar" aria-label="Kontrol pemutar">
+
+      <!-- Progress bar (Req 1.2) -->
+      <div id="progress-bar-wrap"
+           role="progressbar"
+           aria-valuemin="0"
+           aria-valuemax="100"
+           aria-valuenow="0"
+           aria-label="Progres episode">
+        <div id="progress-bar-fill"></div>
+      </div>
+
+      <!-- Tombol aksi — target sentuh ≥ 48 px (Req 5.3) -->
+      <div id="control-buttons">
+        <button id="btn-play"
+                class="ctrl-btn"
+                type="button"
+                aria-label="Jeda / Lanjut (Spasi)">
+          ⏸
+        </button>
+
+        <button id="btn-skip"
+                class="ctrl-btn"
+                type="button"
+                aria-label="Lewati scene ini">
+          ⏭
+        </button>
+
+        <!-- Tombol mute didorong ke kanan -->
+        <button id="btn-mute"
+                class="ctrl-btn"
+                type="button"
+                aria-label="Bisukan / Pulihkan suara"
+                aria-pressed="false">
+          🔊
+        </button>
+      </div>
+
+    </div><!-- /#controls -->
+
+  </div><!-- /.stage -->
+
+</div><!-- /#app -->
+
+<!-- Three.js via CDN — dimuat oleh modul duel di Fase 3 -->
+<!-- <script type="importmap">{ "imports": { "three": "https://unpkg.com/three@0.169.0/build/three.module.js" } }</script> -->
+
+<script type="module" src="src/main.js"></script>
+</body>
+</html>

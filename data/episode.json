@@ -1,0 +1,155 @@
+{
+  "id": "ep01",
+  "title": "Kebangun Jadi Garis",
+  "series": "CUMA GARIS.",
+  "totalDurationSec": 50,
+  "scenes": [
+    {
+      "id": "scene-1",
+      "title": "Bangun",
+      "startSec": 0,
+      "endSec": 10,
+      "visual": "Close-up Raka membuka mata di gang Desa Garis, bingung. Kamera pelan naik. Syal merah satu-satunya warna mencolok.",
+      "clip": "assets/clips/scene-1.mp4",
+      "audio": "assets/audio/scene-1.mp3",
+      "narration": [
+        {
+          "text": "Namaku Raka. Tadi malam aku cuma anak biasa yang ketiduran sambil menggambar.",
+          "startSec": 0,
+          "endSec": 5
+        },
+        {
+          "text": "Pagi ini aku bangun… di desa yang isinya gambar hidup. Dan badanku — cuma satu garis.",
+          "startSec": 5,
+          "endSec": 10
+        }
+      ]
+    },
+    {
+      "id": "scene-2",
+      "title": "Diejek",
+      "startSec": 10,
+      "endSec": 20,
+      "visual": "Warga desa (gambar detail berwarna) menunjuk & menertawakan Raka di pasar. Seorang anak mengejek. Raka menunduk, mengepalkan tangan. Gerak natural, bukan pose kaku.",
+      "clip": "assets/clips/scene-2.mp4",
+      "audio": "assets/audio/scene-2.mp3",
+      "narration": [
+        {
+          "text": "Di sini, garis itu kasta paling rendah. Semua orang menertawakanku. 'Cuma garis doang, bisa apa?'",
+          "startSec": 10,
+          "endSec": 20
+        }
+      ]
+    },
+    {
+      "id": "scene-3",
+      "title": "Serangan",
+      "startSec": 20,
+      "endSec": 30,
+      "visual": "Langit desa retak; Coretan Liar (gumpalan tinta hitam tak berbentuk) menerjang pasar. Warga panik berlarian. Kamera goyang + zoom mendadak.",
+      "clip": "assets/clips/scene-3.mp4",
+      "audio": "assets/audio/scene-3.mp3",
+      "narration": [
+        {
+          "text": "Lalu pasar diserang. Coretan Liar. Monster tinta yang tak punya bentuk.",
+          "startSec": 20,
+          "endSec": 30
+        }
+      ]
+    },
+    {
+      "id": "scene-4",
+      "title": "Babak Belur",
+      "startSec": 30,
+      "endSec": 40,
+      "visual": "Raka terpental, tersungkur di tanah, garis tubuhnya menipis. Coretan Liar mengangkat cakar tinta raksasa. Musik menegang.",
+      "clip": "assets/clips/scene-4.mp4",
+      "audio": "assets/audio/scene-4.mp3",
+      "narration": [
+        {
+          "text": "Aku babak belur.",
+          "startSec": 30,
+          "endSec": 40
+        }
+      ]
+    },
+    {
+      "id": "scene-5",
+      "title": "Bangkit",
+      "startSec": 40,
+      "endSec": 50,
+      "visual": "Raka mengangkat telapak tangan kosong — sihir Coretan Liar pecah/batal saat menyentuhnya (anti-sihir). Garis merah-hitam merambat dari tangannya, berubah jadi pedang rune menyala. Cakar raksasa mulai turun ke arah Raka.",
+      "clip": "assets/clips/scene-5.mp4",
+      "audio": "assets/audio/scene-5.mp3",
+      "narration": [
+        {
+          "text": "Tapi saat cakarnya menyentuhku… sihirnya pecah. Hancur begitu saja.",
+          "startSec": 40,
+          "endSec": 43.3
+        },
+        {
+          "text": "Ternyata garis kosong ini… kebal sihir.",
+          "startSec": 43.3,
+          "endSec": 46.7
+        },
+        {
+          "text": "Dan garis ini — bisa jadi apa saja.",
+          "startSec": 46.7,
+          "endSec": 50
+        }
+      ]
+    }
+  ],
+  "branch": {
+    "triggerSec": 50,
+    "triggerText": "GILIRANMU — Lawan Coretan Liar!",
+    "controls": ["Ayun Pedang", "Perisai Garis", "Tenun Kait"],
+    "narration": "Sekarang… giliranmu.",
+    "outcomes": {
+      "menang": "ending-a",
+      "bertahan": "ending-b"
+    }
+  },
+  "endings": [
+    {
+      "id": "ending-a",
+      "variant": "MENANG",
+      "visual": "Ayunan pedang Garis membelah cakar raksasa; Coretan Liar pecah jadi percikan tinta yang memudar. Pasar selamat. Warga menatap Raka tak percaya — anak yang tadi mengejek kini bertepuk tangan pelan. Di kejauhan, sekilas Oret menonton dari atap (hook Episode 3).",
+      "clip": "assets/clips/ending-a.mp4",
+      "audio": "assets/audio/ending-a.mp3",
+      "narration": [
+        {
+          "text": "Satu garis… cukup buat melindungi semua orang yang menertawakannya."
+        }
+      ],
+      "endCard": {
+        "text": "BERSAMBUNG — Episode 2 besok.",
+        "darkTheme": false,
+        "extraLine": null,
+        "duelSummary": null,
+        "replayLabel": "Main Lagi",
+        "replayTarget": "branch"
+      }
+    },
+    {
+      "id": "ending-b",
+      "variant": "BERTAHAN",
+      "visual": "Raka menahan cakar dengan perisai garis sampai Coretan Liar mundur dan lenyap ke retakan langit — tapi pasar porak-poranda dan garis tubuh Raka menipis, nyaris putus. Raka berdiri gemetar. Di langit yang retak, sesaat terasa kehadiran yang jauh lebih besar sedang 'menghapus' sesuatu di kejauhan (bayangan Sang Penghapus — hook gelap).",
+      "clip": "assets/clips/ending-b.mp4",
+      "audio": "assets/audio/ending-b.mp3",
+      "narration": [
+        {
+          "text": "Aku belum menang. Tapi aku masih di sini — dan garis ini… belum terhapus."
+        }
+      ],
+      "endCard": {
+        "text": "BERSAMBUNG — Episode 2 besok.",
+        "darkTheme": true,
+        "extraLine": "Sesuatu sedang menghapus dunia ini…",
+        "duelSummary": null,
+        "replayLabel": "Main Lagi",
+        "replayTarget": "branch"
+      }
+    }
+  ]
+}
