@@ -87,6 +87,15 @@ export function showBranchOverlay() {
     </div>
   `);
 
+  // Narasi branch (TTS, Fase 2) — diputar sekali saat overlay tampil,
+  // di atas frame beku Scene 5. Bila autoplay terblokir, teks tetap tampil.
+  if (branch.audio) {
+    try {
+      const a = new Audio(branch.audio);
+      a.play().catch(() => {});
+    } catch (_) { /* abaikan — overlay tetap berfungsi */ }
+  }
+
   // Tombol "Mulai Duel" → masuk ke DUEL
   document.getElementById('btn-mulai-duel')?.addEventListener('click', _startDuel);
 }

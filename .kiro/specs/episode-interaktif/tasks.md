@@ -31,12 +31,12 @@ prosesnya, jangan dihapus/di-gitignore.
 
 ## Fase 2 — Aset episode (pipeline anime-episode-assembly)
 
-- [ ] 2.1 Klip Scene 1–5 dari lembar desain Raka (jangkar konsistensi),
+- [x] 2.1 Klip Scene 1–5 dari lembar desain Raka (jangkar konsistensi),
       arahan gerak luwes natural; Scene 5 mengacu klip tes anti-sihir
-- [ ] 2.2 Klip Ending A dan Ending B (Scene 6 dua varian penuh)
-- [ ] 2.3 Narasi TTS Bahasa Indonesia per kalimat dari naskah disetujui;
+- [x] 2.2 Klip Ending A dan Ending B (Scene 6 dua varian penuh)
+- [x] 2.3 Narasi TTS Bahasa Indonesia per kalimat dari naskah disetujui;
       gabung per scene; catat durasi ke `episode.json`
-- [ ] 2.4 Kompresi klip (target ≤ 6 MB/klip) + ekstrak poster fallback
+- [x] 2.4 Kompresi klip (target ≤ 6 MB/klip) + ekstrak poster fallback
 
 ## Fase 3 — Mini-game duel (Req 3)
 

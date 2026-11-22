@@ -15,15 +15,16 @@
       "narration": [
         {
           "text": "Namaku Raka. Tadi malam aku cuma anak biasa yang ketiduran sambil menggambar.",
-          "startSec": 0,
-          "endSec": 5
+          "startSec": 0.3,
+          "endSec": 4.24
         },
         {
           "text": "Pagi ini aku bangun… di desa yang isinya gambar hidup. Dan badanku — cuma satu garis.",
-          "startSec": 5,
-          "endSec": 10
+          "startSec": 4.59,
+          "endSec": 9.31
         }
-      ]
+      ],
+      "poster": "assets/images/scene-1-poster.jpg"
     },
     {
       "id": "scene-2",
@@ -36,10 +37,11 @@
       "narration": [
         {
           "text": "Di sini, garis itu kasta paling rendah. Semua orang menertawakanku. 'Cuma garis doang, bisa apa?'",
-          "startSec": 10,
-          "endSec": 20
+          "startSec": 10.3,
+          "endSec": 17.55
         }
-      ]
+      ],
+      "poster": "assets/images/scene-2-poster.jpg"
     },
     {
       "id": "scene-3",
@@ -52,10 +54,11 @@
       "narration": [
         {
           "text": "Lalu pasar diserang. Coretan Liar. Monster tinta yang tak punya bentuk.",
-          "startSec": 20,
-          "endSec": 30
+          "startSec": 20.3,
+          "endSec": 25.1
         }
-      ]
+      ],
+      "poster": "assets/images/scene-3-poster.jpg"
     },
     {
       "id": "scene-4",
@@ -68,10 +71,11 @@
       "narration": [
         {
           "text": "Aku babak belur.",
-          "startSec": 30,
-          "endSec": 40
+          "startSec": 30.3,
+          "endSec": 31.79
         }
-      ]
+      ],
+      "poster": "assets/images/scene-4-poster.jpg"
     },
     {
       "id": "scene-5",
@@ -84,31 +88,37 @@
       "narration": [
         {
           "text": "Tapi saat cakarnya menyentuhku… sihirnya pecah. Hancur begitu saja.",
-          "startSec": 40,
-          "endSec": 43.3
+          "startSec": 40.3,
+          "endSec": 44.26
         },
         {
           "text": "Ternyata garis kosong ini… kebal sihir.",
-          "startSec": 43.3,
-          "endSec": 46.7
+          "startSec": 44.61,
+          "endSec": 47.06
         },
         {
           "text": "Dan garis ini — bisa jadi apa saja.",
-          "startSec": 46.7,
-          "endSec": 50
+          "startSec": 47.41,
+          "endSec": 49.83
         }
-      ]
+      ],
+      "poster": "assets/images/scene-5-poster.jpg"
     }
   ],
   "branch": {
     "triggerSec": 50,
     "triggerText": "GILIRANMU — Lawan Coretan Liar!",
-    "controls": ["Ayun Pedang", "Perisai Garis", "Tenun Kait"],
+    "controls": [
+      "Ayun Pedang",
+      "Perisai Garis",
+      "Tenun Kait"
+    ],
     "narration": "Sekarang… giliranmu.",
     "outcomes": {
       "menang": "ending-a",
       "bertahan": "ending-b"
-    }
+    },
+    "audio": "assets/audio/branch.mp3"
   },
   "endings": [
     {
@@ -129,7 +139,8 @@
         "duelSummary": null,
         "replayLabel": "Main Lagi",
         "replayTarget": "branch"
-      }
+      },
+      "poster": "assets/images/ending-a-poster.jpg"
     },
     {
       "id": "ending-b",
@@ -149,7 +160,8 @@
         "duelSummary": null,
         "replayLabel": "Main Lagi",
         "replayTarget": "branch"
-      }
+      },
+      "poster": "assets/images/ending-b-poster.jpg"
     }
   ]
 }

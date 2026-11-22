@@ -169,6 +169,9 @@ function _playScene(idx) {
   }
   _videoEl.currentTime = 0;
 
+  // Poster fallback per scene (Fase 2, Tugas 2.4)
+  _videoEl.poster = scene.poster || '';
+
   // Event: klip gagal
   const onVideoError = () => {
     console.warn(`[scenePlayer] Klip gagal dimuat: ${scene.clip}`);
@@ -357,6 +360,12 @@ function _showFallback(scene) {
   const allText = (scene.narration || []).map(s => s.text).join(' ');
   const inner = _fallbackEl.querySelector('span') || _fallbackEl;
   inner.textContent = allText || '[ Adegan tidak tersedia — narasi tetap berjalan ]';
+  // Poster diam sebagai latar fallback bila tersedia (Fase 2, Tugas 2.4)
+  if (scene.poster) {
+    _fallbackEl.style.backgroundImage    = `url("${scene.poster}")`;
+    _fallbackEl.style.backgroundSize     = 'cover';
+    _fallbackEl.style.backgroundPosition = 'center';
+  }
   _fallbackEl.style.display = 'flex';
 
   // Sembunyikan elemen video agar tidak tampak hitam di belakang
@@ -364,7 +373,10 @@ function _showFallback(scene) {
 }
 
 function _hideFallback() {
-  if (_fallbackEl) _fallbackEl.style.display = 'none';
+  if (_fallbackEl) {
+    _fallbackEl.style.display = 'none';
+    _fallbackEl.style.backgroundImage = '';
+  }
   if (_videoEl) _videoEl.style.visibility = 'visible';
 }
 
