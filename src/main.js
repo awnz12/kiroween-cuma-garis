@@ -129,7 +129,6 @@ function _syncUI(sm) {
 
   // Tombol play juga mengendalikan pause duel
   if (!btnPlay.__duelPauseWired) {
-    btnPlay?.__proto__; // akses dummy agar tidak ada error
     // Wire ulang handler setelah init
     const existing = btnPlay?._duelHandler;
     if (!existing && btnPlay) {

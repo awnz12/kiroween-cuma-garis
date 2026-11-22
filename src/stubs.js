@@ -18,6 +18,7 @@
 
 import { startDuelGame, pauseDuelGame, resumeDuelGame } from './duel/duelGame.js';
 import { playEnding } from './endings.js';
+import { isMuted } from './scenePlayer.js';
 
 // ---- Referensi modul ----------------------------------------
 
@@ -95,6 +96,7 @@ export function showBranchOverlay() {
   if (branch.audio) {
     try {
       const a = new Audio(branch.audio);
+      a.muted = isMuted();   // hormati state mute global
       a.play().catch(() => {});
     } catch (_) { /* abaikan — overlay tetap berfungsi */ }
   }

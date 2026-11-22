@@ -61,12 +61,12 @@ prosesnya, jangan dihapus/di-gitignore.
 
 ## Fase 5 — Verifikasi & poles
 
-- [ ] 5.1 Checklist acceptance criteria Req 1–6 satu per satu (Chrome
+- [x] 5.1 Checklist acceptance criteria Req 1–6 satu per satu (Chrome
       Android vertikal, Chrome desktop, WebGL off, audio terblokir)
-- [ ] 5.2 Uji tanpa suara: subtitle saja menjelaskan cerita utuh
-- [ ] 5.3 Ukur beban awal ≤ 2 MB di luar klip; layar pertama ≤ 3 dtk
+- [x] 5.2 Uji tanpa suara: subtitle saja menjelaskan cerita utuh
+- [x] 5.3 Ukur beban awal ≤ 2 MB di luar klip; layar pertama ≤ 3 dtk
       (Req 6.2–6.3); perbaiki regresi
-- [ ] 5.4 Transisi antar-state dipoles: tanpa layar hitam > 500 ms,
+- [x] 5.4 Transisi antar-state dipoles: tanpa layar hitam > 500 ms,
       tanpa lompatan audio
 
 ## Fase 6 — Submission Kiroween

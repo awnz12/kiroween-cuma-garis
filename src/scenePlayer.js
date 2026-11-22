@@ -94,6 +94,32 @@ export function initScenePlayer({ scenes, stateMachine, onAllDone }) {
   });
 }
 
+// ---- Registry listener mute --------------------------------
+
+/** Daftar listener yang dipanggil saat state mute berubah. */
+let _muteListeners = [];
+
+/**
+ * Kembalikan state mute saat ini.
+ * @returns {boolean}
+ */
+export function isMuted() {
+  return _muted;
+}
+
+/**
+ * Daftarkan listener yang dipanggil setiap kali state mute berubah.
+ * Listener dipanggil dengan nilai boolean mute baru.
+ * @param {function(boolean): void} fn
+ * @returns {function(): void} Fungsi unsubscribe
+ */
+export function onMuteChange(fn) {
+  _muteListeners.push(fn);
+  return () => {
+    _muteListeners = _muteListeners.filter(f => f !== fn);
+  };
+}
+
 // ---- API publik --------------------------------------------
 
 /**
@@ -130,11 +156,15 @@ export function pausePlayer() {
 
 /**
  * Toggle mute audio narasi (subtitle tetap jalan).
+ * Merupakan satu-satunya titik perubahan state mute; semua listener
+ * registry akan dipanggil dengan nilai mute baru.
  */
 export function setMuted(val) {
   _muted = !!val;
   if (_audioEl) _audioEl.muted = _muted;
   _updateMuteBtn();
+  // Beritahu semua listener (misalnya endings.js, stubs.js)
+  _muteListeners.forEach(fn => fn(_muted));
 }
 
 // ---- Pemutaran scene ---------------------------------------
@@ -475,9 +505,7 @@ function _handleSkip() {
 }
 
 function _handleMute() {
-  _muted = !_muted;
-  if (_audioEl) _audioEl.muted = _muted;
-  setMuted(_muted);
+  setMuted(!_muted);
 }
 
 // ---- Update label tombol -----------------------------------

@@ -24,6 +24,7 @@ import {
   startSubtitles,
   stopSubtitles,
 } from './subtitleTrack.js';
+import { isMuted, onMuteChange } from './scenePlayer.js';
 
 // ---- Konstanta ----------------------------------------------
 
@@ -80,6 +81,12 @@ export function initEndings(stateMachine, episodeData, onReplay) {
     _overlayEl.style.display = 'none';
     document.querySelector('.stage')?.appendChild(_overlayEl);
   }
+
+  // Sinkronisasi mute: bila user toggle tombol mute di scenePlayer,
+  // terapkan nilai baru ke audio ending yang sedang aktif (bila ada).
+  onMuteChange((muted) => {
+    if (_audioEl) _audioEl.muted = muted;
+  });
 }
 
 // ---- Pemutaran ending (Tugas 4.1) ---------------------------
@@ -183,6 +190,7 @@ function _loadAudio(ending) {
   _audioEl = document.createElement('audio');
   _audioEl.src     = ending.audio;
   _audioEl.preload = 'auto';
+  _audioEl.muted   = isMuted();   // sinkronkan state mute global sejak awal
   _audioEl.style.display = 'none';
   document.body.appendChild(_audioEl);
 
