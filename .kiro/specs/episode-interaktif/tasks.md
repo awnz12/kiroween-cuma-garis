@@ -40,16 +40,16 @@ prosesnya, jangan dihapus/di-gitignore.
 
 ## Fase 3 — Mini-game duel (Req 3)
 
-- [ ] 3.1 `duelGame.js`: scene Three.js arena pasar, Raka garis + pedang
+- [x] 3.1 `duelGame.js`: scene Three.js arena pasar, Raka garis + pedang
       menyala, Coretan Liar gumpalan tinta + cakar raksasa
-- [ ] 3.2 Sistem pertarungan: HP dua pihak, 3 aksi (Ayun/Perisai/Kait +
+- [x] 3.2 Sistem pertarungan: HP dua pihak, 3 aksi (Ayun/Perisai/Kait +
       cooldown), serangan balik ber-telegraph ≥ 600 ms
-- [ ] 3.3 Input ganda: tombol sentuh + keyboard (spasi/S/K); timer 45 dtk
-- [ ] 3.4 `duelResult.js`: kontrak hasil `{ outcome }` sesuai aturan
+- [x] 3.3 Input ganda: tombol sentuh + keyboard (spasi/S/K); timer 45 dtk
+- [x] 3.4 `duelResult.js`: kontrak hasil `{ outcome }` sesuai aturan
       Req 3.4; duel berhenti bersih dan canvas dilepas
-- [ ] 3.5 `duelFallback.js`: mode quick-time button bila WebGL absen,
+- [x] 3.5 `duelFallback.js`: mode quick-time button bila WebGL absen,
       aturan hasil identik (Req 3.5)
-- [ ] 3.6 Overlay branch point: freeze frame Scene 5 + "GILIRANMU —
+- [x] 3.6 Overlay branch point: freeze frame Scene 5 + "GILIRANMU —
       Lawan Coretan Liar!" lalu duel mulai (Req 3.1)
 
 ## Fase 4 — Percabangan ending (Req 4)

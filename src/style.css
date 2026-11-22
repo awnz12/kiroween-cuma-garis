@@ -434,3 +434,106 @@ html, body {
     max-width: 100vw;
   }
 }
+
+/* ============================================================
+   Fase 3 — Branch overlay + tombol duel
+   ============================================================ */
+
+/* Overlay branch point (Tugas 3.6) */
+.branch-overlay-content {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.9rem;
+  padding: 1.5rem;
+  text-align: center;
+  max-width: 32ch;
+  animation: branch-fadein 0.4s ease both;
+}
+
+@keyframes branch-fadein {
+  from { opacity: 0; transform: scale(0.95) translateY(8px); }
+  to   { opacity: 1; transform: scale(1)    translateY(0);   }
+}
+
+.branch-sword-icon {
+  font-size: clamp(2rem, 10cqw, 3rem);
+  animation: branch-sword-pulse 1.2s ease-in-out infinite alternate;
+}
+
+@keyframes branch-sword-pulse {
+  from { transform: scale(1)    rotate(-5deg); }
+  to   { transform: scale(1.08) rotate(5deg);  }
+}
+
+.branch-trigger-text {
+  font-size: clamp(1rem, 5.5cqw, 1.5rem);
+  font-weight: 900;
+  color: var(--white-text);
+  line-height: 1.25;
+  text-transform: uppercase;
+  letter-spacing: 0.03em;
+  /* Glow merah khas Raka */
+  text-shadow: 0 0 16px rgba(231, 76, 60, 0.6);
+}
+
+.branch-narration {
+  font-size: clamp(0.8rem, 3.8cqw, 1rem);
+  color: rgba(240, 240, 245, 0.75);
+  line-height: 1.55;
+  font-style: italic;
+}
+
+/* Tombol "Mulai Duel" — satu gestur untuk memulai duel (Req 3.1) */
+.branch-start-btn {
+  margin-top: 0.4rem;
+  padding: 0.85rem 2rem;
+  font-size: clamp(0.9rem, 4.5cqw, 1.1rem);
+  font-weight: 800;
+  letter-spacing: 0.04em;
+  background: var(--red-raka);
+  border-color: var(--red-raka);
+  box-shadow: 0 0 18px rgba(192, 57, 43, 0.5);
+  transition: background 0.15s, box-shadow 0.15s, transform 0.1s;
+  pointer-events: all;
+}
+
+.branch-start-btn:hover,
+.branch-start-btn:focus-visible {
+  background: var(--red-glow);
+  box-shadow: 0 0 26px rgba(231, 76, 60, 0.7);
+  outline: none;
+}
+
+.branch-start-btn:active {
+  transform: scale(0.96);
+}
+
+/* #stub-overlay sudah didefinisikan di atas; pastikan z-index cukup */
+#stub-overlay {
+  /* z-index sudah 30 dari definisi di atas; branch overlay harus di atas video */
+  /* Freeze frame: background transparan saat branch (video di bawahnya) */
+}
+
+/* Saat overlay branch aktif, buat background semi-transparan agar
+   freeze frame Scene 5 terlihat di latar (Req 3.1) */
+#stub-overlay:has(.branch-overlay-content) {
+  background: rgba(10, 10, 15, 0.82);
+  backdrop-filter: blur(2px);
+}
+
+/* Fallback: class helper ditambahkan oleh JS bila :has tidak didukung */
+#stub-overlay.branch-active {
+  background: rgba(10, 10, 15, 0.82);
+  backdrop-filter: blur(2px);
+}
+
+/* Dark theme end card (Ending B) */
+.stub-dark {
+  /* teks yang sudah ada tetap; ini placeholder untuk Fase 4 */
+}
+
+/* Tombol aksi duel di luar overlay — ctrl-btn sudah ada di style utama */
+.dg-action-btn {
+  /* inherited dari .ctrl-btn */
+}

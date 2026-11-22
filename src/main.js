@@ -1,13 +1,13 @@
 /**
  * CUMA GARIS. — Episode Interaktif
- * main.js — Bootstrap & wiring semua modul (Fase 1)
+ * main.js — Bootstrap & wiring semua modul (Fase 1 + Fase 3)
  *
  * Urutan inisialisasi:
  * 1. Muat episode.json (assets.loadEpisodeData)
  * 2. Inisialisasi subtitle renderer (subtitleTrack.initSubtitleTrack)
  * 3. Buat state machine (stateMachine.createStateMachine)
  * 4. Inisialisasi scenePlayer (scenePlayer.initScenePlayer)
- * 5. Inisialisasi stub overlays (stubs.initStubs)
+ * 5. Inisialisasi stubs/branch overlay (stubs.initStubs)
  * 6. Pasang handler tombol intro
  */
 
@@ -18,7 +18,11 @@ import {
   initScenePlayer,
   startFromScene0,
 }                                           from './scenePlayer.js';
-import { initStubs, showBranchStub }        from './stubs.js';
+import {
+  initStubs,
+  showBranchOverlay,
+  showEndCardStub,
+}                                           from './stubs.js';
 
 // ---- Bootstrap ---------------------------------------------
 
@@ -33,9 +37,6 @@ async function boot() {
     return;
   }
 
-  // Simpan teks trigger branch ke window agar stubs bisa membacanya
-  window.__branchTriggerText = episodeData.branch?.triggerText ?? 'GILIRANMU — Lawan Coretan Liar!';
-
   // 2. Inisialisasi subtitle renderer
   initSubtitleTrack();
 
@@ -43,6 +44,15 @@ async function boot() {
   const sm = createStateMachine({
     onTransition: ({ from, to, paused, sceneIndex, reason }) => {
       _syncUI(sm);
+
+      // Saat state masuk DUEL dan berubah ke PAUSED/resume,
+      // teruskan ke duelGame lewat window handles yang didaftarkan stubs.js
+      if (from === STATE.DUEL && paused) {
+        window.__duelPause?.();
+      }
+      if (from === STATE.DUEL && !paused && to === STATE.DUEL) {
+        window.__duelResume?.();
+      }
     },
   });
 
@@ -54,15 +64,16 @@ async function boot() {
       // Semua Scene 1–5 selesai → pindah ke BRANCH
       sm.goToBranch('scenePlayer onAllDone');
       _syncUI(sm);
-      showBranchStub();
+      showBranchOverlay();
     },
   });
 
-  // 5. Inisialisasi stub overlays (Fase 3–4 akan mengganti ini)
-  initStubs(sm, () => {
+  // 5. Inisialisasi stubs/branch overlay (Fase 3)
+  //    Teruskan episodeData agar teks diambil dari JSON, bukan hardcode.
+  initStubs(sm, episodeData, () => {
     // Dipanggil saat "Main Lagi" dari end card → state sudah di BRANCH
     _syncUI(sm);
-    showBranchStub();
+    showBranchOverlay();
   });
 
   // 6. Pasang handler tombol "Mulai Episode"
@@ -95,18 +106,35 @@ function _syncUI(sm) {
 
   if (!controls) return;
 
-  // Sembunyikan kontrol di state non-playing
-  const showControls = state === STATE.PLAYING || state === STATE.INTRO;
-  controls.style.visibility = showControls ? 'visible' : 'visible'; // selalu visible
-
   // Label tombol play/pause
   if (btnPlay) {
     btnPlay.textContent = paused ? '▶' : '⏸';
     btnPlay.setAttribute('aria-label', paused ? 'Lanjutkan (Spasi)' : 'Jeda (Spasi)');
-    btnPlay.disabled = (state !== STATE.PLAYING);
+    // Aktifkan tombol play juga saat DUEL (untuk pause duel)
+    btnPlay.disabled = (state !== STATE.PLAYING && state !== STATE.DUEL);
   }
   if (btnSkip) {
     btnSkip.disabled = (state !== STATE.PLAYING);
+  }
+
+  // Tombol play juga mengendalikan pause duel
+  if (!btnPlay.__duelPauseWired) {
+    btnPlay?.__proto__; // akses dummy agar tidak ada error
+    // Wire ulang handler setelah init
+    const existing = btnPlay?._duelHandler;
+    if (!existing && btnPlay) {
+      btnPlay._duelHandler = () => {
+        if (sm.getState() === STATE.DUEL) {
+          if (sm.isPaused()) {
+            sm.togglePause(false);
+          } else {
+            sm.togglePause(true);
+          }
+        }
+      };
+      btnPlay.addEventListener('click', btnPlay._duelHandler);
+      btnPlay.__duelPauseWired = true;
+    }
   }
 }
 
