@@ -16,17 +16,17 @@ prosesnya, jangan dihapus/di-gitignore.
 
 ## Fase 1 — Pemutar scene (Req 1, 2, 6)
 
-- [ ] 1.1 `stateMachine.js`: state INTRO/PLAYING/BRANCH/DUEL/ENDING/
+- [x] 1.1 `stateMachine.js`: state INTRO/PLAYING/BRANCH/DUEL/ENDING/
       ENDCARD + PAUSED, transisi berbasis event + timeout pengaman
-- [ ] 1.2 `scenePlayer.js`: putar klip berurutan, progress bar, indikator
+- [x] 1.2 `scenePlayer.js`: putar klip berurutan, progress bar, indikator
       scene, tombol skip & pause (Req 1.1–1.3, 1.5)
-- [ ] 1.3 `assets.js`: manifest + preload klip scene berikutnya; fallback
+- [x] 1.3 `assets.js`: manifest + preload klip scene berikutnya; fallback
       poster diam bila klip gagal muat (Req 1.4, 6.2)
-- [ ] 1.4 `subtitleTrack.js` + overlay subtitle sinkron per kalimat,
+- [x] 1.4 `subtitleTrack.js` + overlay subtitle sinkron per kalimat,
       posisi bawah, aman di lebar 360 px (Req 2.2, 5.4)
-- [ ] 1.5 Integrasi audio narasi per scene + toggle mute + tombol
+- [x] 1.5 Integrasi audio narasi per scene + toggle mute + tombol
       "Putar Narasi" bila autoplay audio terblokir (Req 2.1, 2.3, 2.4)
-- [ ] 1.6 Tata letak vertical-first: panggung 9:16 terpusat, latar
+- [x] 1.6 Tata letak vertical-first: panggung 9:16 terpusat, latar
       dekoratif desktop, kontrol jangkauan jempol (Req 5.1–5.3)
 
 ## Fase 2 — Aset episode (pipeline anime-episode-assembly)
