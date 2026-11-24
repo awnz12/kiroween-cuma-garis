@@ -25,6 +25,7 @@ import {
   stopSubtitles,
 } from './subtitleTrack.js';
 import { isMuted, onMuteChange } from './scenePlayer.js';
+import { segText, ui, pick, summaryText, onLangChange } from './lang.js';
 
 // ---- Konstanta ----------------------------------------------
 
@@ -52,6 +53,7 @@ let _fallbackMode = false;
 let _curEnding    = null;    // definisi ending aktif dari episode.json
 let _curOutcome   = null;    // 'menang' | 'bertahan'
 let _curStats     = null;    // { hpRaka, hpMusuh, durationSec } dari duel
+let _endCardVisible = false; // true selama end card tampil
 
 // ---- Inisialisasi ------------------------------------------
 
@@ -86,6 +88,11 @@ export function initEndings(stateMachine, episodeData, onReplay) {
   // terapkan nilai baru ke audio ending yang sedang aktif (bila ada).
   onMuteChange((muted) => {
     if (_audioEl) _audioEl.muted = muted;
+  });
+
+  // End card sedang tampil + bahasa diganti → render ulang end card
+  onLangChange(() => {
+    if (_endCardVisible) _showEndCard();
   });
 }
 
@@ -221,9 +228,9 @@ function _teardownAudio() {
 
 function _showFallback(ending) {
   if (!_fallbackEl || !ending) return;
-  const allText = (ending.narration || []).map(s => s.text).join(' ');
+  const allText = (ending.narration || []).map(s => segText(s)).join(' ');
   const inner = _fallbackEl.querySelector('span') || _fallbackEl;
-  inner.textContent = allText || '[ Adegan tidak tersedia — narasi tetap berjalan ]';
+  inner.textContent = allText || ui('sceneUnavailable');
   if (ending.poster) {
     _fallbackEl.style.backgroundImage    = `url("${ending.poster}")`;
     _fallbackEl.style.backgroundSize     = 'cover';
@@ -271,9 +278,9 @@ function _showEndCard() {
   const endCard = ending?.endCard;
   const outcome = _curOutcome;
 
-  const mainText  = endCard?.text        ?? 'BERSAMBUNG — Episode 2 besok.';
-  const extraLine = endCard?.extraLine   ?? null;
-  const replayLbl = endCard?.replayLabel ?? 'Main Lagi';
+  const mainText  = endCard ? pick(endCard, 'text')        : 'BERSAMBUNG — Episode 2 besok.';
+  const extraLine = endCard ? (pick(endCard, 'extraLine') || null) : null;
+  const replayLbl = endCard ? pick(endCard, 'replayLabel') : 'Main Lagi';
   const darkTheme = endCard?.darkTheme   ?? (outcome === 'bertahan');
   const badge     = outcome === 'menang' ? '🏆' : '🌑';
   const summary   = _buildSummary(outcome, _curStats);
@@ -296,6 +303,7 @@ function _showEndCard() {
   _overlayEl.style.flexDirection  = 'column';
   _overlayEl.style.alignItems     = 'center';
   _overlayEl.style.justifyContent = 'center';
+  _endCardVisible = true;
 
   document.getElementById('ending-btn-replay')?.addEventListener('click', () => {
     _hideEndCard();
@@ -310,20 +318,19 @@ function _showEndCard() {
  * Tanpa statistik yang valid, jatuh ke label hasil sederhana.
  */
 function _buildSummary(outcome, stats) {
-  const label = outcome === 'menang' ? 'MENANG' : 'BERTAHAN';
+  const label = outcome === 'menang' ? ui('outcomeWin') : ui('outcomeSurvive');
   if (stats && Number.isFinite(stats.durationSec) && Number.isFinite(stats.hpRaka)) {
     const dur = Math.max(0, Math.round(stats.durationSec));
     const hp  = Math.max(0, Math.round(stats.hpRaka));
-    const text = outcome === 'menang'
-      ? `Kamu menang dalam ${dur} detik — HP tersisa ${hp}`
-      : `Kamu bertahan ${dur} detik — HP tersisa ${hp}`;
+    const text = summaryText(outcome, dur, hp);
     return { html: `<p class="ending-summary">${_escHtml(text)}</p>` };
   }
-  return { html: `<p class="stub-label">Hasil: ${label}</p>` };
+  return { html: `<p class="stub-label">${ui('resultLabel')}: ${label}</p>` };
 }
 
 function _hideEndCard() {
   if (!_overlayEl) return;
+  _endCardVisible = false;
   _overlayEl.style.display = 'none';
   _overlayEl.classList.remove('ending-dark');
 }

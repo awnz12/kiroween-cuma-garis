@@ -24,6 +24,7 @@ import {
   startSubtitles,
   stopSubtitles,
 } from './subtitleTrack.js';
+import { segText, ui, getLang } from './lang.js';
 
 // ---- Referensi DOM -----------------------------------------
 
@@ -358,7 +359,7 @@ function _showNarasiButton(scene) {
   _btnNarasi.id          = 'btn-narasi';
   _btnNarasi.type        = 'button';
   _btnNarasi.className   = 'ctrl-btn narasi-btn';
-  _btnNarasi.textContent = '🔈 Putar Narasi';
+  _btnNarasi.textContent = ui('playNarration');
   _btnNarasi.setAttribute('aria-label', 'Putar narasi audio');
 
   _btnNarasi.addEventListener('click', () => {
@@ -387,9 +388,9 @@ function _hideNarasiButton() {
 function _showFallback(scene) {
   if (!_fallbackEl) return;
   // Tampilkan teks narasi gabungan sebagai pengganti klip
-  const allText = (scene.narration || []).map(s => s.text).join(' ');
+  const allText = (scene.narration || []).map(s => segText(s)).join(' ');
   const inner = _fallbackEl.querySelector('span') || _fallbackEl;
-  inner.textContent = allText || '[ Adegan tidak tersedia — narasi tetap berjalan ]';
+  inner.textContent = allText || ui('sceneUnavailable');
   // Poster diam sebagai latar fallback bila tersedia (Fase 2, Tugas 2.4)
   if (scene.poster) {
     _fallbackEl.style.backgroundImage    = `url("${scene.poster}")`;
@@ -463,7 +464,8 @@ function _buildSceneDots() {
     const dot = document.createElement('div');
     dot.className = 'scene-dot';
     dot.setAttribute('role', 'listitem');
-    dot.setAttribute('aria-label', `Scene ${i + 1}: ${scene.title}`);
+    const title = getLang() === 'en' ? (scene.titleEn || scene.title) : scene.title;
+    dot.setAttribute('aria-label', `Scene ${i + 1}: ${title}`);
     _sceneDotsEl.appendChild(dot);
   });
 }

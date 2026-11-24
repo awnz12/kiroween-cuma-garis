@@ -19,6 +19,7 @@
 import { startDuelGame, pauseDuelGame, resumeDuelGame } from './duel/duelGame.js';
 import { playEnding } from './endings.js';
 import { isMuted } from './scenePlayer.js';
+import { pick, ui, getLang, onLangChange } from './lang.js';
 
 // ---- Referensi modul ----------------------------------------
 
@@ -30,6 +31,7 @@ let _onBranch     = null;    // callback masuk BRANCH — sejak Fase 4 jalur "Ma
 
 let _overlayEl    = null;    // overlay utama (branch / endcard)
 let _stageEl      = null;    // .stage — target container Three.js
+let _branchVisible = false;  // true selama overlay branch tampil
 
 // ---- Inisialisasi ------------------------------------------
 
@@ -61,6 +63,11 @@ export function initStubs(stateMachine, episodeData, onBranchEntered) {
   // (dipakai state machine saat togglePause dari luar)
   window.__duelPause  = pauseDuelGame;
   window.__duelResume = resumeDuelGame;
+
+  // Overlay branch sedang tampil + bahasa diganti → render ulang
+  onLangChange(() => {
+    if (_branchVisible) showBranchOverlay();
+  });
 }
 
 // ---- Overlay Branch Point (Tugas 3.6, Req 3.1) -------------
@@ -77,16 +84,17 @@ export function showBranchOverlay() {
     return;
   }
 
-  const triggerText = branch.triggerText;    // verbatim
-  const narration   = branch.narration;      // verbatim
+  const triggerText = pick(branch, 'triggerText');  // per bahasa aktif
+  const narration   = pick(branch, 'narration');    // per bahasa aktif
 
+  _branchVisible = true;
   _show(`
     <div class="branch-overlay-content">
       <div class="branch-sword-icon" aria-hidden="true">⚔️</div>
       <h2 class="branch-trigger-text">${_escHtml(triggerText)}</h2>
       <p class="branch-narration">${_escHtml(narration)}</p>
       <button id="btn-mulai-duel" class="ctrl-btn branch-start-btn" type="button">
-        Mulai Duel
+        ${ui('startDuel')}
       </button>
     </div>
   `);
@@ -116,13 +124,18 @@ export function showBranchStub() {
 // ---- Mulai duel --------------------------------------------
 
 function _startDuel() {
+  _branchVisible = false;
   _hideSelf();
 
   // Transisi state machine ke DUEL
   _sm.startDuel();
 
   const branch   = _episodeData.branch;
-  const controls = branch.controls;    // label 3 aksi — dari JSON
+  // Label 3 aksi per bahasa aktif — jatuh ke label Indonesia bila
+  // varian Inggris tidak ada. Urutan indeks tidak berubah (aturan duel sama).
+  const controls = getLang() === 'en' && Array.isArray(branch.controlsEn)
+    ? branch.controlsEn
+    : branch.controls;
   const container = _stageEl || document.querySelector('#clip-area') || document.body;
 
   startDuelGame({

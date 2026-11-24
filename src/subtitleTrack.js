@@ -10,6 +10,8 @@
  *   scene, bukan oleh event audio).
  */
 
+import { segText } from './lang.js';
+
 // ---- Referensi DOM -----------------------------------------
 
 let _subtitleTextEl  = null;   // <span id="subtitle-text">
@@ -51,9 +53,11 @@ export function initSubtitleTrack() {
 export function startSubtitles(narration, sceneOffsetSec = 0, nowSec = 0) {
   stopSubtitles();
 
-  // Normalisasi: konversi startSec/endSec ke waktu relatif dalam scene
+  // Normalisasi: konversi startSec/endSec ke waktu relatif dalam scene.
+  // Simpan segmen mentah agar teks dipilih per bahasa aktif (lang.js)
+  // setiap kali dirender — toggle bahasa di tengah scene langsung berlaku.
   _segments = (narration || []).map(seg => ({
-    text:     seg.text,
+    raw:      seg,
     startSec: seg.startSec - sceneOffsetSec,
     endSec:   seg.endSec   - sceneOffsetSec,
   }));
@@ -84,6 +88,16 @@ export function stopSubtitles() {
  *
  * @param {number} nowSec - detik saat ini dalam scene
  */
+/**
+ * Paksa render ulang segmen aktif — dipakai saat bahasa subtitle
+ * diganti di tengah scene agar teks langsung berganti bahasa.
+ */
+export function refreshSubtitles() {
+  if (_currentIdx >= 0 && _segments[_currentIdx]) {
+    _setText(segText(_segments[_currentIdx].raw));
+  }
+}
+
 export function seekSubtitles(nowSec) {
   _sceneStart = Date.now() - nowSec * 1000;
   // Loop rAF sudah berjalan; akan pick up posisi baru pada tick berikutnya.
@@ -106,7 +120,7 @@ function _tick() {
 
   if (found !== _currentIdx) {
     _currentIdx = found;
-    _setText(found >= 0 ? _segments[found].text : '');
+    _setText(found >= 0 ? segText(_segments[found].raw) : '');
   }
 
   _rafId = requestAnimationFrame(_tick);

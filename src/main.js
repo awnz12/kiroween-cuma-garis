@@ -13,7 +13,8 @@
  */
 
 import { loadEpisodeData, getEpisodeData }  from './assets.js';
-import { initSubtitleTrack }                from './subtitleTrack.js';
+import { initSubtitleTrack, refreshSubtitles } from './subtitleTrack.js';
+import { getLang, setLang, ui, langToggleText } from './lang.js';
 import { createStateMachine, STATE }        from './stateMachine.js';
 import {
   initScenePlayer,
@@ -86,7 +87,11 @@ async function boot() {
     showBranchOverlay();
   });
 
-  // 7. Pasang handler tombol "Mulai Episode"
+  // 7. Toggle bahasa subtitle ID/EN (Fase 6) — default EN untuk
+  //    paket submission; audio narasi tetap Bahasa Indonesia.
+  _initLangToggle();
+
+  // 8. Pasang handler tombol "Mulai Episode"
   const introScreen = document.getElementById('intro-screen');
   const btnStart    = document.getElementById('btn-start');
 
@@ -103,6 +108,40 @@ async function boot() {
   _syncUI(sm);
 
   console.log('[main] CUMA GARIS. Episode Interaktif — siap.');
+}
+
+// ---- Toggle bahasa subtitle (Fase 6) -------------------------
+
+/**
+ * Pasang tombol #btn-lang: klik berganti EN ⇄ ID.
+ * Menerapkan bahasa ke teks intro, placeholder fallback, dan
+ * subtitle yang sedang tampil (modul lain mendengar onLangChange).
+ */
+function _initLangToggle() {
+  const btn = document.getElementById('btn-lang');
+  _applyLangToStaticUI();
+  if (!btn) return;
+  btn.textContent = langToggleText();
+  btn.setAttribute('aria-pressed', String(getLang() === 'id'));
+  btn.addEventListener('click', () => {
+    setLang(getLang() === 'en' ? 'id' : 'en');
+    btn.textContent = langToggleText();
+    btn.setAttribute('aria-pressed', String(getLang() === 'id'));
+    _applyLangToStaticUI();
+    refreshSubtitles();
+  });
+}
+
+/** Terapkan bahasa aktif ke teks statis index.html (intro + fallback). */
+function _applyLangToStaticUI() {
+  const series = document.getElementById('intro-series');
+  const sub    = document.getElementById('intro-sub');
+  const start  = document.getElementById('btn-start');
+  const fbText = document.getElementById('clip-fallback-text');
+  if (series) series.textContent = ui('introSeries');
+  if (sub)    sub.textContent    = ui('introSub');
+  if (start)  start.textContent  = ui('startEpisode');
+  if (fbText) fbText.textContent = ui('sceneUnavailable');
 }
 
 // ---- Sinkronisasi UI berdasarkan state ---------------------

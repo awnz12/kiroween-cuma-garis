@@ -34,7 +34,7 @@
 
       <!-- Fallback: ditampilkan bila klip gagal muat (Req 1.4) -->
       <div id="clip-fallback" role="img" aria-label="Gambar cadangan adegan">
-        <span>[ Adegan tidak tersedia — narasi tetap berjalan ]</span>
+        <span id="clip-fallback-text">[ Scene unavailable — the narration continues ]</span>
       </div>
 
       <!-- ---- Overlay subtitle (Req 2.2) ------------------- -->
@@ -55,9 +55,9 @@
       <!-- ---- Layar intro ----------------------------------- -->
       <div id="intro-screen" role="region" aria-label="Layar pembuka episode">
         <h1>CUMA <span>GARIS.</span></h1>
-        <p class="intro-series">Episode 1 — "Kebangun Jadi Garis"</p>
-        <p class="intro-sub">Episode anime interaktif ±1 menit</p>
-        <button id="btn-start" type="button">▶ Mulai Episode</button>
+        <p class="intro-series" id="intro-series">Episode 1 — "Woke Up as a Line"</p>
+        <p class="intro-sub" id="intro-sub">An interactive anime episode, ±1 minute</p>
+        <button id="btn-start" type="button">▶ Start Episode</button>
       </div>
     </div><!-- /#clip-area -->
 
@@ -90,6 +90,15 @@
                 aria-label="Lewati scene ini"
                 disabled>
           ⏭
+        </button>
+
+        <!-- Toggle bahasa subtitle ID/EN (Fase 6) -->
+        <button id="btn-lang"
+                class="ctrl-btn lang-btn"
+                type="button"
+                aria-label="Subtitle language: English / Indonesian"
+                aria-pressed="false">
+          EN
         </button>
 
         <!-- Tombol mute didorong ke kanan -->

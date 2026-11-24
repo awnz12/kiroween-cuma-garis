@@ -14,6 +14,7 @@
 
 import { computeOutcome }                    from './duelResult.js';
 import { startFallback, pauseFallback, resumeFallback } from './duelFallback.js';
+import { ui }                                from '../lang.js';
 
 // ---- Konstanta seimbang ------------------------------------
 // Duel selesai wajar dalam 20–45 detik pada permainan rata-rata.
@@ -530,7 +531,7 @@ function _buildUI() {
       <!-- HP Musuh -->
       <div style="min-width:38%;display:flex;flex-direction:column;align-items:flex-end;gap:2px;">
         <span style="font-size:0.6rem;text-transform:uppercase;letter-spacing:.06em;
-          color:#7f8c8d;font-weight:800;">Coretan Liar</span>
+          color:#7f8c8d;font-weight:800;">${ui('enemyName')}</span>
         <div style="width:100%;height:8px;background:rgba(255,255,255,.12);border-radius:4px;overflow:hidden;">
           <div id="dg-hp-musuh-fill" style="height:100%;width:100%;
             background:linear-gradient(90deg,#2c3e50,#7f8c8d);transition:width .2s;"></div>
@@ -555,7 +556,7 @@ function _buildUI() {
         background:rgba(231,76,60,0.18); border:1px solid rgba(231,76,60,0.6);
         border-radius:6px; padding:0.3rem 0.8rem;
         font-size:0.75rem; font-weight:800; color:#e74c3c; letter-spacing:.04em;
-      ">⚠ CAKAR TURUN!</div>
+      ">${ui('clawIncoming')}</div>
       <div id="dg-telegraph-bar" style="
         width:80%; height:5px; background:rgba(231,76,60,0.2); border-radius:3px; overflow:hidden;
       ">
@@ -580,7 +581,7 @@ function _buildUI() {
       align-items:center; justify-content:center;
       font-size:1.5rem; font-weight:900; letter-spacing:.12em; color:#f0f0f5;
       pointer-events:none;
-    ">JEDA</div>
+    ">${ui('paused')}</div>
 
     <!-- Tombol lewati duel (Fase 6-prep, sesuai naskah) — pointer-events on -->
     <div id="dg-skipbar" style="
@@ -593,7 +594,7 @@ function _buildUI() {
         font-size:clamp(0.7rem,3.5cqw,0.85rem); font-weight:700;
         background:rgba(0,0,0,0.55); border:1px solid rgba(255,255,255,.25);
         color:#f0f0f5; border-radius:8px; cursor:pointer;
-      ">⏭ Lewati Duel</button>
+      ">${ui('skipDuel')}</button>
     </div>
 
     <!-- Tombol aksi (sentuh + keyboard) — pointer-events on -->
@@ -912,7 +913,7 @@ function _showResultOverlay(outcome, cb) {
   overlay.innerHTML = `
     <div style="font-size:2.5rem;">${outcome === 'menang' ? '🏆' : '🛡️'}</div>
     <div style="font-size:1.3rem;font-weight:900;color:#f0f0f5;letter-spacing:.04em;">
-      ${outcome === 'menang' ? 'MENANG!' : 'BERTAHAN!'}
+      ${outcome === 'menang' ? ui('win') : ui('survive')}
     </div>
   `;
   _uiEl.appendChild(overlay);

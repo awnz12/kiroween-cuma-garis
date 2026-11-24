@@ -12,6 +12,7 @@
  */
 
 import { computeOutcome } from './duelResult.js';
+import { ui } from '../lang.js';
 
 // ---- Konstanta seimbang (sama dengan duelGame.js) -----------
 const HP_RAKA_AWAL      = 100;
@@ -160,7 +161,7 @@ function _buildUI() {
 
       <div style="display:flex;flex-direction:column;align-items:flex-end;gap:2px;min-width:40%;">
         <span style="font-size:0.65rem;text-transform:uppercase;letter-spacing:.05em;
-          color:#7f8c8d;font-weight:700;">Coretan Liar</span>
+          color:#7f8c8d;font-weight:700;">${ui('enemyName')}</span>
         <div id="fb-hp-musuh-bar" style="
           width:100%; height:10px; background:rgba(255,255,255,0.1);
           border-radius:5px; overflow:hidden;">
@@ -239,7 +240,7 @@ function _buildUI() {
           <path d="M46 52 Q56 44 58 56" stroke="#2c3e50" stroke-width="3" fill="none" stroke-linecap="round"/>
           <path d="M46 54 Q58 50 60 62" stroke="#2c3e50" stroke-width="2.5" fill="none" stroke-linecap="round"/>
         </svg>
-        <span style="font-size:0.65rem;color:#7f8c8d;font-weight:700;">CORETAN LIAR</span>
+        <span style="font-size:0.65rem;color:#7f8c8d;font-weight:700;">${ui('enemyName').toUpperCase()}</span>
       </div>
 
       <!-- Indikator telegraph serangan musuh -->
@@ -265,7 +266,7 @@ function _buildUI() {
         align-items:center; justify-content:center;
         font-size:1.4rem; font-weight:900; letter-spacing:0.1em;
         color:#f0f0f5;
-      ">JEDA</div>
+      ">${ui('paused')}</div>
     </div>
 
     <!-- Tombol lewati duel (Fase 6-prep, sesuai naskah) -->
@@ -279,7 +280,7 @@ function _buildUI() {
         font-size:clamp(0.7rem,3.5cqw,0.85rem); font-weight:700;
         background:rgba(255,255,255,0.06); border:1px solid rgba(255,255,255,.25);
         color:#f0f0f5; border-radius:8px; cursor:pointer;
-      ">⏭ Lewati Duel</button>
+      ">${ui('skipDuel')}</button>
     </div>
 
     <!-- Tombol aksi -->
@@ -547,7 +548,7 @@ function _showResultOverlay(outcome, cb) {
   overlay.innerHTML = `
     <div style="font-size:2rem;">${outcome === 'menang' ? '🏆' : '🛡️'}</div>
     <div style="font-size:1.2rem;font-weight:900;color:#f0f0f5;">
-      ${outcome === 'menang' ? 'MENANG!' : 'BERTAHAN!'}
+      ${outcome === 'menang' ? ui('win') : ui('survive')}
     </div>
   `;
   el.appendChild(overlay);

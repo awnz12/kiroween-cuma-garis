@@ -1,12 +1,14 @@
 {
   "id": "ep01",
   "title": "Kebangun Jadi Garis",
+  "titleEn": "Woke Up as a Line",
   "series": "CUMA GARIS.",
   "totalDurationSec": 50,
   "scenes": [
     {
       "id": "scene-1",
       "title": "Bangun",
+      "titleEn": "Wake Up",
       "startSec": 0,
       "endSec": 10,
       "visual": "Close-up Raka membuka mata di gang Desa Garis, bingung. Kamera pelan naik. Syal merah satu-satunya warna mencolok.",
@@ -15,11 +17,13 @@
       "narration": [
         {
           "text": "Namaku Raka. Tadi malam aku cuma anak biasa yang ketiduran sambil menggambar.",
+          "textEn": "My name is Raka. Last night I was just an ordinary kid who fell asleep while drawing.",
           "startSec": 0.3,
           "endSec": 4.24
         },
         {
           "text": "Pagi ini aku bangun… di desa yang isinya gambar hidup. Dan badanku — cuma satu garis.",
+          "textEn": "This morning, I woke up… in a village full of living drawings. And my body — just a single line.",
           "startSec": 4.59,
           "endSec": 9.31
         }
@@ -29,6 +33,7 @@
     {
       "id": "scene-2",
       "title": "Diejek",
+      "titleEn": "Mocked",
       "startSec": 10,
       "endSec": 20,
       "visual": "Warga desa (gambar detail berwarna) menunjuk & menertawakan Raka di pasar. Seorang anak mengejek. Raka menunduk, mengepalkan tangan. Gerak natural, bukan pose kaku.",
@@ -37,6 +42,7 @@
       "narration": [
         {
           "text": "Di sini, garis itu kasta paling rendah. Semua orang menertawakanku. 'Cuma garis doang, bisa apa?'",
+          "textEn": "Here, a line is the lowest caste. Everyone laughs at me. 'Just a line — what can you even do?'",
           "startSec": 10.3,
           "endSec": 17.55
         }
@@ -46,6 +52,7 @@
     {
       "id": "scene-3",
       "title": "Serangan",
+      "titleEn": "The Attack",
       "startSec": 20,
       "endSec": 30,
       "visual": "Langit desa retak; Coretan Liar (gumpalan tinta hitam tak berbentuk) menerjang pasar. Warga panik berlarian. Kamera goyang + zoom mendadak.",
@@ -54,6 +61,7 @@
       "narration": [
         {
           "text": "Lalu pasar diserang. Coretan Liar. Monster tinta yang tak punya bentuk.",
+          "textEn": "Then the market was attacked. The Wild Scribble. A formless ink monster.",
           "startSec": 20.3,
           "endSec": 25.1
         }
@@ -63,6 +71,7 @@
     {
       "id": "scene-4",
       "title": "Babak Belur",
+      "titleEn": "Beaten Down",
       "startSec": 30,
       "endSec": 40,
       "visual": "Raka terpental, tersungkur di tanah, garis tubuhnya menipis. Coretan Liar mengangkat cakar tinta raksasa. Musik menegang.",
@@ -71,6 +80,7 @@
       "narration": [
         {
           "text": "Aku babak belur.",
+          "textEn": "I was beaten to a pulp.",
           "startSec": 30.3,
           "endSec": 31.79
         }
@@ -80,6 +90,7 @@
     {
       "id": "scene-5",
       "title": "Bangkit",
+      "titleEn": "Rising",
       "startSec": 40,
       "endSec": 50,
       "visual": "Raka mengangkat telapak tangan kosong — sihir Coretan Liar pecah/batal saat menyentuhnya (anti-sihir). Garis merah-hitam merambat dari tangannya, berubah jadi pedang rune menyala. Cakar raksasa mulai turun ke arah Raka.",
@@ -88,16 +99,19 @@
       "narration": [
         {
           "text": "Tapi saat cakarnya menyentuhku… sihirnya pecah. Hancur begitu saja.",
+          "textEn": "But the moment its claw touched me… its magic shattered. It just broke apart.",
           "startSec": 40.3,
           "endSec": 44.26
         },
         {
           "text": "Ternyata garis kosong ini… kebal sihir.",
+          "textEn": "Turns out this empty line… is immune to magic.",
           "startSec": 44.61,
           "endSec": 47.06
         },
         {
           "text": "Dan garis ini — bisa jadi apa saja.",
+          "textEn": "And this line — can become anything.",
           "startSec": 47.41,
           "endSec": 49.83
         }
@@ -108,12 +122,19 @@
   "branch": {
     "triggerSec": 50,
     "triggerText": "GILIRANMU — Lawan Coretan Liar!",
+    "triggerTextEn": "YOUR TURN — Fight the Wild Scribble!",
     "controls": [
       "Ayun Pedang",
       "Perisai Garis",
       "Tenun Kait"
     ],
+    "controlsEn": [
+      "Sword Swing",
+      "Line Shield",
+      "Weaver's Hook"
+    ],
     "narration": "Sekarang… giliranmu.",
+    "narrationEn": "Now… it's your turn.",
     "outcomes": {
       "menang": "ending-a",
       "bertahan": "ending-b"
@@ -130,16 +151,19 @@
       "narration": [
         {
           "text": "Satu garis… cukup buat melindungi semua orang yang menertawakannya.",
+          "textEn": "One single line… was enough to protect everyone who had laughed at him.",
           "startSec": 0.3,
           "endSec": 4.86
         }
       ],
       "endCard": {
         "text": "BERSAMBUNG — Episode 2 besok.",
+        "textEn": "TO BE CONTINUED — Episode 2 tomorrow.",
         "darkTheme": false,
         "extraLine": null,
         "duelSummary": null,
         "replayLabel": "Main Lagi",
+        "replayLabelEn": "Play Again",
         "replayTarget": "branch"
       },
       "poster": "assets/images/ending-a-poster.jpg"
@@ -153,16 +177,20 @@
       "narration": [
         {
           "text": "Aku belum menang. Tapi aku masih di sini — dan garis ini… belum terhapus.",
+          "textEn": "I haven't won yet. But I'm still here — and this line… has not been erased.",
           "startSec": 0.3,
           "endSec": 5.39
         }
       ],
       "endCard": {
         "text": "BERSAMBUNG — Episode 2 besok.",
+        "textEn": "TO BE CONTINUED — Episode 2 tomorrow.",
         "darkTheme": true,
         "extraLine": "Sesuatu sedang menghapus dunia ini…",
+        "extraLineEn": "Something is erasing this world…",
         "duelSummary": null,
         "replayLabel": "Main Lagi",
+        "replayLabelEn": "Play Again",
         "replayTarget": "branch"
       },
       "poster": "assets/images/ending-b-poster.jpg"

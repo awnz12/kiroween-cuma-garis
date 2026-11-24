@@ -355,6 +355,14 @@ html, body {
   gap: 0.3em;
 }
 
+/* Toggle bahasa subtitle ID/EN (Fase 6) — kecil, tidak mengganggu */
+.lang-btn {
+  font-size: clamp(0.7rem, 3.5cqw, 0.85rem);
+  font-weight: 800;
+  letter-spacing: 0.05em;
+  min-width: 48px;
+}
+
 /* ---- Layar intro ----------------------------------------- */
 
 #intro-screen {
