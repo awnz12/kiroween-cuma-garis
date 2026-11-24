@@ -51,6 +51,9 @@ That sword swing is where you come in.
 
 1. **Watch** Scenes 1–5 (about 50 seconds) with Indonesian narration and
    synchronized subtitles — the format of a subbed anime episode.
+   Subtitles are bilingual: use the **EN/ID toggle** in the control bar
+   to switch subtitles and UI text between English (default) and
+   Indonesian; the narration audio stays Indonesian either way.
 2. **The branch point:** the frame freezes as Raka's line-sword forms.
    An overlay appears: *"GILIRANMU — Lawan Coretan Liar!"* ("Your turn —
    fight the Wild Scribble!").
@@ -154,9 +157,6 @@ subtitles) follows this outline:
 
 ## Known pre-submission TODOs
 
-- English subtitle track for the in-game episode (in-game subtitles are
-  currently Indonesian only, rendered verbatim from `data/episode.json`;
-  the demo video already carries English subtitles).
 - GitHub Pages activation and the public play link.
 - Demo video upload (YouTube) and the final Devpost submission.
 
